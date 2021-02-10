@@ -1,0 +1,201 @@
+@charset "UTF-8";
+/* Указываем box sizing */
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/* Убираем внутренние отступы */
+ul[class],
+ol[class] {
+  padding: 0;
+}
+
+/* Убираем внешние отступы */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+  padding: 0;
+}
+
+/* Выставляем основные настройки по-умолчанию для body */
+body {
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.2;
+}
+
+/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+ul[class],
+ol[class] {
+  list-style: none;
+  -webkit-margin-before: 0px;
+          margin-block-start: 0px;
+  -webkit-margin-after: 0px;
+          margin-block-end: 0px;
+  -webkit-margin-start: 0px;
+          margin-inline-start: 0px;
+  -webkit-margin-end: 0px;
+          margin-inline-end: 0px;
+  -webkit-padding-start: 0px;
+          padding-inline-start: 0px;
+}
+
+li {
+  display: inline-block;
+}
+
+/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+  color: inherit;
+}
+
+/* Упрощаем работу с изображениями */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Наследуем шрифты для инпутов и кнопок */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+textarea,
+input.text,
+input[type="text"],
+input[type="button"],
+input[type="submit"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+h1 {
+  font-size: 7.8rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 5.5rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+h5 {
+  font-size: 7.6rem;
+  font-weight: 700;
+}
+
+.label1 {
+  font-size: 11.7rem;
+  font-weight: 400;
+}
+
+body {
+  font-family: "Sen", sans-serif;
+  font-weight: 400;
+  color: #ffffff;
+  overflow-x: hidden;
+  font-size: 8px;
+  background-color: #000000;
+  padding: 36px 72px;
+}
+
+@media (min-width: 480px) {
+  body {
+    font-size: calc( 0.0029 * 100vw + 6.6087px);
+  }
+}
+
+@media (min-width: 1170px) {
+  body {
+    font-size: 10px;
+  }
+}
+
+.container {
+  max-width: 1920px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.title {
+  font-size: 1.6rem;
+  text-align: center;
+  margin: 50px 0 40px 0;
+}
+
+.text {
+  font-size: 1.8rem;
+  line-height: 1.5;
+}
+
+.header__wrap {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10% 90%;
+      grid-template-columns: 10% 90%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.header-logo {
+  -ms-grid-column-align: start;
+      justify-self: start;
+}
+
+.header-menu {
+  -ms-grid-column-align: end;
+      justify-self: end;
+  font-size: 1.6rem;
+}
+
+.header-menu__link {
+  padding: 32px 24px;
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+}
+
+.header-menu__link:hover {
+  background-color: #5221E6;
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,15 @@
+.header
+	&__wrap
+		display: grid
+		grid-template-columns: 10% 90%
+		align-items: center
+	&-logo
+		justify-self: start
+	&-menu
+		justify-self: end
+		font-size: 1.6rem
+		&__link
+			padding: 32px 24px
+			transition: background-color 0.3s
+			&:hover
+				background-color: $colors__primary

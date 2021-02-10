@@ -1,165 +1,155 @@
-var gulp = require("gulp"), // Подключаем Gulp
-  sass = require("gulp-sass"), //Подключаем Sass пакет
-  sourcemaps = require("gulp-sourcemaps"),
-  concat = require("gulp-concat"), // Подключаем gulp-concat (для конкатенации файлов)
-  babel = require("gulp-babel"), // Подключаем Babel
-  uglify = require("gulp-uglify"), // Подключаем gulp-uglifyjs (для сжатия JS)
-  browserSync = require("browser-sync"), // Подключаем Browser Sync
-  imagemin = require("gulp-imagemin"), // Подключаем библиотеку для работы с изображениями
-  pngquant = require("imagemin-pngquant"), // Подключаем библиотеку для работы с png
-  del = require("del"), // Подключаем библиотеку для удаления файлов и папок
-  cache = require("gulp-cache"), // Подключаем библиотеку кеширования
-  rename = require("gulp-rename"), //Подключаем бибилиотеку для переименования файлов
-  webp = require("gulp-webp"),
-  autoprefixer = require("gulp-autoprefixer"); // Подключаем библиотеку для автоматического добавления префиксов
+// Определяем переменную "preprocessor"
+let preprocessor = "sass";
 
-gulp.task("browser-sync", function () {
-  // Создаем таск browser-sync
-  browserSync({
-    // Выполняем browser Sync
-    server: {
-      // Определяем параметры сервера
-      baseDir: "app", // Директория для сервера - app
-    },
+// Определяем константы Gulp
+const { src, dest, parallel, series, watch } = require("gulp");
+
+// Подключаем Browsersync
+const browserSync = require("browser-sync").create();
+
+// Подключаем gulp-concat
+const concat = require("gulp-concat");
+
+// Подключаем gulp-uglify-es
+const uglify = require("gulp-uglify-es").default;
+
+// Подключаем модули gulp-sass и gulp-less
+const sass = require("gulp-sass");
+
+// Подключаем Autoprefixer
+const autoprefixer = require("gulp-autoprefixer");
+
+// Подключаем модуль gulp-clean-css
+const cleancss = require("gulp-clean-css");
+
+// Подключаем gulp-imagemin для работы с изображениями
+const imagemin = require("gulp-imagemin");
+const pngquant = require("imagemin-pngquant");
+
+// Подключаем модуль gulp-newer
+const newer = require("gulp-newer");
+
+// Подключаем модуль del
+const del = require("del");
+
+const sourcemaps = require("gulp-sourcemaps");
+const rename = require("gulp-rename"); //Подключаем бибилиотеку для переименования файлов;
+
+// Определяем логику работы Browsersync
+function browsersync() {
+  browserSync.init({
+    // Инициализация Browsersync
+    server: { baseDir: "app/" }, // Указываем папку сервера
     notify: false, // Отключаем уведомления
+    online: true, // Режим работы: true или false
   });
-});
+}
 
-gulp.task("sass", function () {
-  // Создаем таск Sass
-  return gulp
-    .src("app/assets/sass/**/*.sass") // Берем источник
-    .pipe(sass({ outputStyle: "compressed" }).on("error", sass.logError)) // Преобразуем Sass в CSS посредством gulp-sass :nested :compact :expanded :compressed
+function libsJS() {
+  return src(
+    [
+      // Берём файлы из источников
+      "node_modules/jquery/dist/jquery.min.js", // Пример подключения библиотеки
+      "app/js/libs/jquery.waypoints.js",
+      "app/js/libs/parallaxie.js",
+      "app/js/libs/typeit.min.js", // Пример подключения библиотеки
+      // "app/js/app.js", // Пользовательские скрипты, использующие библиотеку, должны быть подключены в конце
+    ],
+    { allowEmpty: true }
+  )
+    .pipe(concat("libs.min.js")) // Конкатенируем в один файл
+    .pipe(uglify()) // Сжимаем JavaScript
+    .pipe(dest("app/js/")) // Выгружаем готовый файл в папку назначения
+    .pipe(browserSync.stream()); // Триггерим Browsersync для обновления страницы
+}
+
+function styles() {
+  return src("app/sass/style.sass") // Выбираем источник
+    .pipe(eval(preprocessor)()) // Преобразуем значение переменной "preprocessor" в функцию
+    .pipe(concat("style.min.css")) // Конкатенируем в файл style.min.js
     .pipe(
-      autoprefixer(["last 15 versions", "> 1%", "ie 8", "ie 7"], {
-        cascade: true,
+      autoprefixer({ overrideBrowserslist: ["last 10 versions"], grid: true })
+    ) // Создадим префиксы с помощью Autoprefixer
+    .pipe(
+      cleancss({
+        level: { 1: { specialComments: 0 } },
+        // format: "beautify",
       })
-    ) // Создаем префиксы
+    ) // Минифицируем стили
     .pipe(sourcemaps.write(".")) // создание карты css.map в текущей папке
-    .pipe(gulp.dest("app/assets/css")) // Выгружаем результата в папку app/assets/css
-    .pipe(browserSync.reload({ stream: true })); // Обновляем CSS на странице при изменении
-});
+    .pipe(dest("app/css/")) // Выгрузим результат в папку "app/css/"
+    .pipe(browserSync.stream()); // Сделаем инъекцию в браузер
+}
 
-gulp.task("webp", function () {
-  return gulp
-    .src([
-      //
-      "app/assets/img/**/*.jpg",
-      "app/assets/img/**/*.jpeg",
-      "app/assets/img/**/*.png",
-    ])
-    .pipe(webp({ quality: 90 }))
-    .pipe(gulp.dest("app/assets/img/web-p"));
-});
-
-gulp.task("libs-js", function () {
-  return gulp
-    .src([
-      // Берем все необходимые библиотеки
-      "app/assets/js/libs/jquery.min.js",
-      "app/assets/js/libs/jquery.waypoints.js",
-      "app/assets/js/libs/parallaxie.js",
-      "app/assets/js/libs/typeit.min.js",
-    ])
-    .pipe(concat("libs.min.js")) // Собираем их в кучу в новом файле libs.min.js
-    .pipe(uglify()) // Сжимаем JS файл
-    .pipe(gulp.dest("app/assets/js")); // Выгружаем в папку app/assets/js
-});
-gulp.task("libs-css", function () {
-  return gulp
-    .src([
-      // Берем все необходимые библиотеки
-      "app/assets/css/libs/bootstrap-grid.min.css", // Берем bootstrap
-      "app/assets/css/libs/animate.min.css",
-      "app/assets/css/libs/splide.min.css",
-      "app/assets/css/libs/splide-skyblue.min.css",
-    ])
-    .pipe(concat("libs.css")) // Собираем их в кучу в новом файле libs.css
-    .pipe(gulp.dest("app/assets/css")) // Выгружаем в папку app/assets/css
-    .pipe(browserSync.reload({ stream: true })); // Обновляем CSS на странице при изменении
-});
-
-gulp.task("code", function () {
-  return gulp.src("app/*.html").pipe(browserSync.reload({ stream: true }));
-});
-
-gulp.task("script", function () {
-  return gulp
-    .src("app/assets/js/main.js")
-    .pipe(browserSync.reload({ stream: true }));
-});
-
-gulp.task("clean", async function () {
-  return del.sync("dist"); // Удаляем папку dist перед сборкой
-});
-
-// gulp.task('babel', function () {
-//     return gulp.src([
-//         'app/js/main.js'
-//     ])
-//     .pipe(babel({
-//         presets: ["@babel/preset-env"]
-// 	}))
-// 	// .pipe(uglify()) // Сжимаем JS файл
-// 	.pipe(rename('main-min.js'))
-//     .pipe(gulp.dest('app/js'));
-// });
-
-gulp.task("img", function () {
-  return gulp
-    .src("app/assets/img/**/*") // Берем все изображения из app/assets
+function images() {
+  return src("app/img/src/**/*") // Берём все изображения из папки источника
+    .pipe(newer("app/img/dest/")) // Проверяем, было ли изменено (сжато) изображение ранее
     .pipe(
-      cache(
-        imagemin({
-          // С кешированием
-          // .pipe(imagemin({ // Сжимаем изображения без кеширования
-          interlaced: true,
-          progressive: true,
-          svgoPlugins: [{ removeViewBox: false }],
-          use: [pngquant()],
-        })
-      ) /**/
-    )
-    .pipe(gulp.dest("dist/assets/img")); // Выгружаем на продакшен
-});
+      imagemin({
+        // С кешированием
+        // .pipe(imagemin({ // Сжимаем изображения без кеширования
+        interlaced: true,
+        progressive: true,
+        svgoPlugins: [{ removeViewBox: false }],
+        use: [pngquant()],
+      })
+    ) // Сжимаем и оптимизируем изображеня
+    .pipe(dest("app/images/dest/")); // Выгружаем оптимизированные изображения в папку назначения
+}
 
-gulp.task("prebuild", async function () {
-  var buildCss = gulp
-    .src(["app/assets/css/**/*"]) // Переносим стили css в продакшен
-    .pipe(gulp.dest("dist/assets/css"));
+function cleanimg() {
+  return del("app/images/dest/**/*", { force: true }); // Удаляем всё содержимое папки "app/images/dest/"
+}
 
-  var buildFonts = gulp
-    .src("app/assets/fonts/**/*") // Переносим шрифты в продакшен
-    .pipe(gulp.dest("dist/assets/fonts"));
+function buildcopy() {
+  return src(
+    [
+      // Выбираем нужные файлы
+      "app/css/**/*.css",
+      "app/js/**/*.js",
+      "app/img/dest/**/*",
+      "app/**/*.html",
+    ],
+    { base: "app" }
+  ) // Параметр "base" сохраняет структуру проекта при копировании
+    .pipe(dest("dist")); // Выгружаем в папку с финальной сборкой
+}
 
-  var buildJs = gulp
-    .src(["app/assets/js/**/*"]) // Переносим скрипты в продакшен
-    .pipe(gulp.dest("dist/assets/js"));
+function cleandist() {
+  return del("dist/**/*", { force: true }); // Удаляем всё содержимое папки "dist/"
+}
 
-  var buildHtml = gulp
-    .src("app/*.html") // Переносим HTML в продакшен
-    .pipe(gulp.dest("dist"));
+function startwatch() {
+  // Выбираем все файлы JS в проекте, а затем исключим с суффиксом .min.js
+  watch(["app/**/*.js", "!app/js/*.min.js"], libsJS);
 
-  var buildImg = gulp
-    .src("app/assets/img/**/*") // Переносим картинки в продакшен
-    .pipe(gulp.dest("dist/assets/img"));
-});
+  // Мониторим файлы препроцессора на изменения
+  watch("app/**/" + preprocessor + "/**/*", styles);
 
-gulp.task("clear", function (callback) {
-  return cache.clearAll();
-});
+  // Мониторим файлы HTML на изменения
+  watch("app/**/*.html").on("change", browserSync.reload);
 
-gulp.task("watch", function () {
-  gulp.watch("app/assets/sass/**/*.sass", gulp.parallel("sass")); // Наблюдение за sass файлами
-  gulp.watch("app/*.html", gulp.parallel("code")); // Наблюдение за HTML файлами в корне проекта
-  gulp.watch(
-    ["app/assets/js/main.js", "app/assets/js/libs.js"],
-    gulp.parallel("script")
-  ); // Наблюдение за главным JS файлом и за библиотеками
-  // gulp.watch('app/js/main.js', gulp.parallel('script')); // Наблюдение за главным JS файлом
-});
-gulp.task(
-  "default",
-  gulp.parallel("sass", "browser-sync", "watch", "script", "libs-css")
-);
-gulp.task("build", gulp.parallel("clean", "prebuild", "img", "sass"));
+  // Мониторим папку-источник изображений и выполняем images(), если есть изменения
+  watch("app/img/src/**/*", images);
+}
+
+// Экспортируем функцию browsersync() как таск browsersync. Значение после знака = это имеющаяся функция.
+exports.browsersync = browsersync;
+
+// Экспортируем функцию libsJS() в таск libsJS
+exports.libsJS = libsJS;
+
+// Экспортируем функцию styles() в таск styles
+exports.styles = styles;
+
+// Экспорт функции images() в таск images
+exports.images = images;
+
+// Экспортируем функцию cleanimg() как таск cleanimg
+exports.cleanimg = cleanimg;
+
+// Создаём новый таск "build", который последовательно выполняет нужные операции
+exports.build = series(cleandist, styles, libsJS, images, buildcopy);
+
+// Экспортируем дефолтный таск с нужным набором функций
+exports.default = parallel(styles, libsJS, browsersync, startwatch);
