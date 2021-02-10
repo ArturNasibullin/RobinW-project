@@ -1,0 +1,41 @@
+@mixin _1170
+    @media only screen and (max-width: 1170px)
+        @content
+@mixin _979
+    @media only screen and (max-width: 979px)
+        @content
+@mixin _768
+    @media only screen and (max-width: 768px)
+        @content
+@mixin _480
+    @media only screen and (max-width: 480px)
+        @content
+@mixin _350
+    @media only screen and (max-width: 350px)
+        @content
+
+@mixin transition
+    @for $i from 1 through 5
+        &:nth-child(#{$i})
+            transition: all .2s #{$i * .1}s ease-in
+
+// Elements
+//////////////////////////////////////////////////////
+
+// Size )
+@mixin size($width, $height)
+    width: $width
+    height: $height
+
+// Links
+@mixin link-color($color, $color-hover)
+    will-change: color
+    @include transitions(color)
+
+    &,
+    &:focus
+        color: $color
+
+    &:hover,
+    &:active
+        color: $color-hover

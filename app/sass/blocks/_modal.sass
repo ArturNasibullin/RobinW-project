@@ -1,0 +1,94 @@
+.modal
+	display: none
+	&__overlay
+		width: 100%
+		min-height: 100vh
+		z-index: 7000
+		padding: 40px
+		position: fixed
+		display: flex
+		justify-content: center
+		align-items: center
+		flex-direction: column
+		top: 0
+		left: 0
+		background: rgba(0, 0, 0, 0.75)
+		opacity: 1
+		transition: 0.35s ease-in-out
+		max-height: 100vh
+		overflow: hidden
+		&.open
+			opacity: 1
+			cursor: pointer
+	&__wrapper
+		z-index: 9979
+		position: relative
+		margin-top: 100px
+		color: $colors__text
+		max-width: 450px
+		padding: 30px
+		border-radius: 15px
+		background-color: $colors__white
+		@include _480
+			margin-top: 0
+	&__socials
+		@include _480
+			display: none
+	&__header
+		font-size: 1.4rem
+		text-transform: uppercase
+		margin-bottom: 30px
+		text-align: center
+	&__close
+		position: absolute
+		font-size: 60px
+		color: #ffffff
+		top: -24px
+		right: -35px
+	&__input
+		width: 100%
+		margin-bottom: 20px
+
+.modal-thanks
+	display: none
+	&__overlay
+		width: 100%
+		min-height: 100vh
+		z-index: 7000
+		padding: 40px
+		position: fixed
+		display: flex
+		justify-content: center
+		align-items: center
+		flex-direction: column
+		top: 0
+		left: 0
+		background: rgba(0, 0, 0, 0.75)
+		opacity: 1
+		transition: 0.35s ease-in-out
+		max-height: 100vh
+		overflow: hidden
+		&.open
+			opacity: 1
+			cursor: pointer
+	&__wrapper
+		z-index: 9979
+		position: relative
+		margin-top: 100px
+		color: #fff
+		max-width: 450px
+		padding: 30px
+		border-radius: 15px
+		@include _480
+			margin-top: 0
+	&__header
+		font-size: 1.6rem
+		text-transform: uppercase
+		margin-bottom: 30px
+		text-align: center
+	&__close
+		position: absolute
+		font-size: 60px
+		color: #ffffff
+		top: -24px
+		right: -35px

@@ -1,0 +1,120 @@
+body
+	font-family: $font-family__mont
+	font-weight: $font-weight__sans--medium
+	color: $colors__text
+	overflow-x: hidden
+	@include fluidFontSize($font-size--xsmall, $font-size--base)
+h3
+	font-size: 1.4rem
+	margin-bottom: 10px
+.light-overlay
+	position: absolute
+	left: 0
+	top: 0
+	right: 0
+	bottom: 0
+	min-height: 620px
+	background: rgb(0,0,0)
+	opacity: 0.4
+	z-index: 1
+.text-gradient
+	background: -webkit-linear-gradient(90deg, #2876e2, #3f8efc)
+	-webkit-background-clip: text
+	-webkit-text-fill-color: transparent
+.bg-primary
+	background-color: $colors__primary
+.title
+	font-size: 1.6rem
+	text-align: center
+	margin: 50px 0 40px 0
+.text
+	font-size: 1rem
+	line-height: 1.5
+.btn
+	padding: 20px 30px
+	color: $colors__white
+	background-color: $colors__primary
+	font-size: 1.2rem
+	text-transform: uppercase
+	border-radius: 4px
+	transition: all 0.3s
+	border: none
+	outline: none
+	&:hover
+		cursor: pointer
+		box-shadow: 0px 5px 10px -5px#000000 !important
+	&--jobs
+		text-align: center
+		display: block
+		width: 250px
+		font-size: 1.6rem
+		margin: 40px auto 60px
+		opacity: 0.9
+	&--form
+		width: 100%
+		margin: 0 auto
+		background-image: none
+		opacity: 0.7
+	&--modal
+		display: block
+		margin: 20px auto
+	&--portfolio
+		background-color: $colors__white
+.form
+	&__wrap
+		margin: 50px 0 20px
+		display: flex
+		flex-wrap: wrap
+	&__title
+		display: block
+		margin-bottom: 20px
+		width: 100%
+		text-align: center
+		font-size: 1.6rem
+	&__item
+		width: 50%
+		margin-bottom: 20px
+		color: #555555
+		&--big
+			width: 100%
+		@include _480
+			width: 100%
+	&__label
+		font-size: 1.2rem
+		padding-left: 15px
+	&__input
+		width: 100%
+		margin: 5px 5px 0 0
+		height: 50px
+		font-size: 1.2rem
+		padding: 15px 20px
+		border-radius: 25px
+		border: 1px solid $colors__primary
+		&:focus
+			outline: none
+			background-color: #eec593
+	&__email, &__textarea, &__btn
+		width: 100%
+	&__textarea
+		height: 120px
+		margin-bottom: 50px
+		resize: none
+		padding-top: 10px
+	&__btn
+
+.social-icons
+	height: 40px
+	width: 40px
+	opacity: 0.7
+	margin-bottom: 5px
+	transition: all 0.3s
+	&:hover
+		fill: $colors__primary
+		opacity: 1
+	&--footer
+		fill: $colors__white
+		@include _480
+			height: 50px
+			width: 50px
+	&--modal
+		fill: $colors__black
