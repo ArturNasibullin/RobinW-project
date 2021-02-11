@@ -1,7 +1,10 @@
 .experience
 	&-header
 		width: 50%
+		margin-top: 120px
 		margin-bottom: 40px
+		@include _768
+			width: 100%
 		&__subtitle
 			text-transform: uppercase
 			color: $colors__light-gray
@@ -9,9 +12,14 @@
 	&__grid
 		display: grid
 		grid-template-columns: repeat(3, 1fr)
+		@include _480
+			grid-template-columns: repeat(1, 1fr)
 	&-item
 		padding-right: 100px
 		margin-bottom: 100px
+		@include _768
+			margin-bottom: 40px
+
 		&__number
 			font-size: 11.7rem
 			color: #8491A0
