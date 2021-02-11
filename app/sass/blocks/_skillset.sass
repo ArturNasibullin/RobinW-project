@@ -1,0 +1,26 @@
+.skillset
+	&__grid
+		margin-top: 120px
+		display: grid
+		grid-template-areas: "one two three""one four five"
+		grid-template-columns: 40% 40% 40%
+		grid-template-rows: 50%
+		grid-row-gap: 40px
+	&-item
+		margin-right: 130px
+		&:nth-child(1)
+			margin-right: 100px
+		&--one
+			grid-area: one
+		&--two
+			grid-area: two
+		&--three
+			grid-area: three
+		&--four
+			grid-area: four
+		&--five
+			grid-area: five
+		&__title
+			margin-bottom: 30px
+		&__subtitle
+			margin: 24px 0 12px
