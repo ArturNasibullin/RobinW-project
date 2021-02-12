@@ -1,0 +1,31 @@
+.contacts
+	&__grid
+		display: grid
+		grid-template-columns: 1fr 1fr
+		grid-gap: 24px
+	&-item
+		&:nth-child(1)
+			padding-right: 70px
+		&:nth-child(2)
+			display: flex
+			flex-flow: column wrap
+.form
+	&__label
+		width: 100%
+		font-size: 16px
+		line-height: 150%
+	&__input
+		width: 100%
+		margin-bottom: 40px
+		margin-top: 10px
+		padding: 10px
+		height: 50px
+		background-color: $colors__level1
+		border: none
+		color: $colors__text
+		font-size: 1.8rem
+		&:focus
+			outline: 1px solid $colors__primary
+	&__textarea
+		height: 100px
+		resize: none
