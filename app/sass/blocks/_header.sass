@@ -1,15 +1,37 @@
 .header
 	&__grid
+		width: 100%
 		display: grid
 		grid-template-columns: 10% 90%
+		grid-template-rows: 80px
 		align-items: center
 	&-logo
 		justify-self: start
 	&-menu
 		justify-self: end
 		font-size: 1.6rem
+		background-color: transparent
+		display: flex
+
+		flex-flow: row wrap
+		transition: all 0.3s
+		@include _768
+			position: fixed
+			right: 70px
+			flex-flow: column wrap
+			visibility: hidden
+			right: -200px
+			z-index: 999
+		&.active
+			background-color: $colors__light-gray
+			color: $colors__base
+			width: 200px
+			right: 0
+			visibility: visible
 		&__link
 			padding: 32px 24px
 			transition: background-color 0.3s
 			&:hover
 				background-color: $colors__primary
+			@include _768
+				padding: 20px

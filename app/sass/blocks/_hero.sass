@@ -2,22 +2,27 @@
 	&__grid
 		margin-top: 40px
 		display: grid
-		grid-template-columns: 40% 50%
+		grid-template-columns: 40% 60%
 		align-items: center
-		@include _480
-			grid-template-columns: 1fr
+		@include _768
+			grid-template-columns: 100%
 	&__image
 		width: 50vw
 		position: relative
-		right: 80px
-		@include _480
-			width: 100vw
+		right: 180px
+		@include _979
+			right: 70px
+		@include _768
+			width: 100%
+			right: 0
+			margin-bottom: 50px
+	&_pic
+		@include _768
 			display: block
 			margin: 0 auto
 	&__text
-		position: relative
-		right: 70px
-		@include _768
-			right: 0
+		z-index: 77
 		span
 			opacity: 0.5
+		@include _480
+			font-size: 5.3em

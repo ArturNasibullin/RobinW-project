@@ -1,11 +1,16 @@
 .photography
 	&-btns
 		margin: 76px 0 52px
+
 	&__grid
 		display: grid
 		grid-template-columns: repeat(4, 1fr)
 		grid-gap: 24px
 		margin-bottom: 120px
+		@include _768
+			grid-template-columns: repeat(2, 1fr)
+		@include _480
+			grid-template-columns: 100%
 	&-item
 		height: 420px
 		&:nth-child(1)

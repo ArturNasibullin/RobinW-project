@@ -4,6 +4,11 @@
 		grid-template-columns: repeat(2, 1fr)
 		grid-template-rows: repeat(3, 1fr)
 		grid-row-gap: 60px
+		@include _768
+			grid-template-columns: 100%
+	&__seeall
+		@include _768
+			margin-top: 30px
 	&-item
 		border: 0.7px solid $colors__dark-gray
 		box-shadow: 0 4px 4px 0 #ffffff23
@@ -14,6 +19,7 @@
 			border: none
 			box-shadow: none
 		&__img
+			width: 100%
 			height: 360px
 		&__text
 			padding: 64px

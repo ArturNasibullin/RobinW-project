@@ -4,10 +4,14 @@
 		padding: 80px 0
 		display: grid
 		grid-template-columns: 60% 20% 20%
+		@include _480
+			grid-template-columns: 100%
 	&-socials
 		margin: 32px 0 140px
 		display: flex
 		flex-flow: row no-wrap
+		@include _480
+			margin: 32px 0
 		&__item
 			margin-right: 16px
 	&-menu
